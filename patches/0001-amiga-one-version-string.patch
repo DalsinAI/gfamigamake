@@ -1,0 +1,16 @@
+One $VER in the program: amiga/amiga_glue.c's (Version C:make shows
+the release, not "Make 3.74.3 (12.05.96)").
+
+--- a/src/amiga.c
++++ b/src/amiga.c
+@@ -23,8 +23,8 @@
+ #include <proto/exec.h>
+ #include <proto/dos.h>
+ 
+-static const char Amiga_version[] = "$VER: Make 3.74.3 (12.05.96) \n"
+-                    "Amiga Port by A. Digulla (digulla@home.lake.de)";
++/* The program's $VER is amiga/amiga_glue.c's (the release's version, not
++   the 1996 port's). */
+ 
+ int
+ MyExecute (char **argv)
