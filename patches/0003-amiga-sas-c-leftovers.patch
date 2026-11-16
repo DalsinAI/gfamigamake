@@ -1,0 +1,45 @@
+Upstream's Amiga code, still SAS/C-era: __aligned (SAS/C's keyword) becomes
+GCC's aligned attribute, re-exec passes Make's argument list with the type
+exec_command() takes, and $(shell) declares its command_argv and joins the
+words with one space each (the old loop left a NUL after every word, so
+Execute() saw only the first).
+
+--- a/src/function.c
++++ b/src/function.c
+@@ -2035,6 +2035,7 @@
+   char ** aptr;
+   size_t len = 0;
+   char* batch_filename = NULL;
++  char **command_argv;
+ 
+   /* Construct the argument list.  */
+   command_argv = construct_command_argv (argv[0], NULL, NULL, 0,
+@@ -2058,7 +2059,7 @@
+   for (aptr=command_argv; *aptr; aptr++)
+     {
+       strcpy (ptr, *aptr);
+-      ptr += strlen (ptr) + 1;
++      ptr += strlen (ptr);
+       *(ptr++) = ' ';
+       *ptr = '\0';
+     }
+--- a/src/main.c
++++ b/src/main.c
+@@ -1563,7 +1563,7 @@
+     BPTR env, file, old;
+     char buffer[1024];
+     int len;
+-    __aligned struct FileInfoBlock fib;
++    struct FileInfoBlock fib __attribute__ ((aligned (4)));
+ 
+     env = Lock ("ENV:", ACCESS_READ);
+     if (env)
+@@ -2782,7 +2782,7 @@
+           jobserver_pre_child(1);
+ 
+ #ifdef _AMIGA
+-          exec_command (nargv);
++          exec_command ((char **)nargv);
+           exit (0);
+ #elif defined (__EMX__)
+           {
