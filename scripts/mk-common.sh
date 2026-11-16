@@ -107,7 +107,8 @@ mk_config() {
         echo "#define HAVE_DECL___SYS_SIGLIST 0"
         echo "#define HAVE_DECL_BSD_SIGNAL 0"
         echo "#define HAVE_DECL_PROGRAM_INVOCATION_NAME 0"
-        echo "#define USE_POSIX_SPAWN 0"
+        # USE_POSIX_SPAWN stays undefined: job.c tests it with defined(), so even 0
+        # would pick posix_spawn() (and children kept make's blocked signals)
         case $2 in
         pc)
             echo "#define MAKE_HOST \"$(uname -m)-pc-$(uname -s | tr '[:upper:]' '[:lower:]')-gnu\""

@@ -43,9 +43,10 @@ makefiles for a lab run:
 
 - `test-part.sh`: the Part file.
 - `host-make.sh`: Make built for the PC from the same sources and gnulib,
-  then upstream's own test suite (`tests/run_make_tests.pl`, 1390 cases),
-  then `tests/amiga/funcs.mk`. Three tests need a user other than root
-  (`tests/root-skips.txt`) and are left out only when run as root.
+  then upstream's own test suite (`tests/run_make_tests.pl`, 1422 cases),
+  then `tests/amiga/funcs.mk`. Two cases check an unwritable TMPDIR, which
+  root can always write (`tests/root-skips.txt`): they are let off only
+  when run as root.
 
 MIT (this repository); GNU Make is GPL 3, Copyright (C) 1988-2023 Free
 Software Foundation, Inc.; the gnulib files are LGPL 2.1 or later.
