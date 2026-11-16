@@ -81,10 +81,8 @@ M="$O/Makefile"
         o="gl_$(basename "$f" .c).o"; A="$A $o"
         printf '%s: %s\n\tm68k-amigaos-gcc $(CF) -MMD -c $< -o $@\n' "$o" "$SRC/$f"
     done
-    for f in $GNULIB_SRCS; do
-        o="gnulib_${f%.c}.o"; A="$A $o"
-        printf '%s: %s\n\tm68k-amigaos-gcc $(CF) -MMD -c $< -o $@\n' "$o" "$GL/lib/$f"
-    done
+    # (gnulib's findprog-in and concat-filename serve only job.c's
+    # posix_spawn() path, which the Amiga build doesn't have)
     A="$A amiga_glue.o"
     printf 'amiga_glue.o: %s\n\tm68k-amigaos-gcc $(CF) -include %s -c $< -o $@\n' "$HERE/amiga/amiga_glue.c" "$WORK/gen/config.h"
     echo "OBJS =$A"

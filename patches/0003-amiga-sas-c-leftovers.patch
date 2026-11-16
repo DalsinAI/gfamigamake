@@ -2,7 +2,8 @@ Upstream's Amiga code, still SAS/C-era: __aligned (SAS/C's keyword) becomes
 GCC's aligned attribute, re-exec passes Make's argument list with the type
 exec_command() takes, and $(shell) declares its command_argv and joins the
 words with one space each (the old loop left a NUL after every word, so
-Execute() saw only the first).
+Execute() saw only the first). The stack Make asks for grows from 20 KB to
+128 KB: recursive rules and long $(foreach)s nest deeply.
 
 --- a/src/function.c
 +++ b/src/function.c
@@ -25,6 +26,15 @@ Execute() saw only the first).
      }
 --- a/src/main.c
 +++ b/src/main.c
+@@ -47,7 +47,7 @@
+ #endif
+ 
+ #ifdef _AMIGA
+-int __stack = 20000; /* Make sure we have 20K of stack space */
++int __stack = 131072; /* 128 KB: deep rule chains and $(foreach)s */
+ #endif
+ #ifdef VMS
+ int vms_use_mcr_command = 0;
 @@ -1563,7 +1563,7 @@
      BPTR env, file, old;
      char buffer[1024];
