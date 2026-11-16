@@ -91,7 +91,7 @@ M="$O/Makefile"
     echo "all: \$(OBJS)"
     echo "-include *.d"
 } > "$M"
-(cd "$O" && nice -n 19 make -k -j"$JOBS" all > make.log 2>&1) || { grep -E 'error' "$O/make.log" | head -40; tail -20 "$O/make.log"; exit 1; }
+(cd "$O" && nice -n 19 make -k -j"$JOBS" all > make.log 2>&1) || { grep -E 'error:' "$O/make.log" | sed 's#^.*/##' | sort | uniq -c | sort -rn | head -150; exit 1; }
 echo "compile: $(( $(date +%s) - t0 )) s"
 
 # --- link: soft-float specs, then fpuauto's ----------------------------------------

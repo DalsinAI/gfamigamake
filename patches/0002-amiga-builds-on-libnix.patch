@@ -1,0 +1,38 @@
+Upstream's Amiga code (last built on SAS/C and old ixemul headers) against
+libnix and the NDK's inline protos: the old K&R lseek/getcwd declarations
+clash with libnix's unistd.h, and <proto/dos.h> can't be included inside a
+function body (its inlines are functions).
+
+--- a/src/function.c
++++ b/src/function.c
+@@ -2012,6 +2012,9 @@
+ 
+ /* Do the Amiga version of func_shell.  */
+ 
++#include <dos/dos.h>
++#include <proto/dos.h>
++
+ char *
+ func_shell_base (char *o, char **argv, int trim_newlines)
+ {
+@@ -2024,9 +2027,6 @@
+      stdout descriptor.  The buffer reading is the same as above,
+      except that we're now reading from a file.  */
+ 
+-#include <dos/dos.h>
+-#include <proto/dos.h>
+-
+   BPTR child_stdout;
+   char tmp_output[FILENAME_MAX];
+   size_t maxlen = 200, i;
+--- a/src/makeint.h
++++ b/src/makeint.h
+@@ -680,7 +680,7 @@
+ /* We omit these declarations on non-POSIX systems which define _POSIX_VERSION,
+    because such systems often declare them in header files anyway.  */
+ 
+-#if !defined (__GNU_LIBRARY__) && !defined (POSIX) && !defined (_POSIX_VERSION) && !defined(WINDOWS32)
++#if !defined (__GNU_LIBRARY__) && !defined (POSIX) && !defined (_POSIX_VERSION) && !defined(WINDOWS32) && !defined(_AMIGA)
+ 
+ # ifndef VMS
+ long int lseek ();

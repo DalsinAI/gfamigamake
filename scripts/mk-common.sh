@@ -133,6 +133,10 @@ mk_config() {
             echo "#define NO_OUTPUT_SYNC 1"
             echo "#define HAVE_CASE_INSENSITIVE_FS 1"
             echo "#define PATH_SEPARATOR_CHAR ';'"
+            echo "#define FILE_TIMESTAMP_HI_RES 0"
+            echo "/* libnix's string.h has its own concat(); Make's is renamed */"
+            echo "#include <string.h>"
+            echo "#define concat mk_concat"
             echo "#define HAVE_DECL_GETLOADAVG 0   /* job.c declares it; amiga/amiga_glue.c */"
             ;;
         esac
