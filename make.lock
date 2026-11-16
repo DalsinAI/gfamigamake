@@ -1,0 +1,14 @@
+# What this port builds on: fetched at build time, never shipped.
+# GNU Make (GPL 3) 4.4.1, tag 4.4.1 (26 Feb 2023), from the GitHub mirror of
+# git.savannah.gnu.org/git/make.git (the same commits)
+MAKE_GIT=https://github.com/mirror/make.git
+MAKE_COMMIT=d66a65ad5a0e31b287f53930b0f09e31801f1613
+MAKE_VERSION=4.4.1
+# gnulib (LGPL 2.1+ for these files) at the stable-202301 branch Make's
+# bootstrap.conf names, from its GitHub mirror: intprops.h, findprog-in,
+# concat-filename
+GNULIB_GIT=https://github.com/coreutils/gnulib.git
+GNULIB_COMMIT=20932856a6a07f056918d58acd09cea4ba150a52
+# fpuauto (common/fpuauto): the FPU when there is one
+FPA_REPO=https://github.com/DalsinAI/amicradle-guest
+FPA_COMMIT=4a784c84b878fe0e9abade7006e67e1ded9b165c
